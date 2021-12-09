@@ -6,19 +6,31 @@ CREATE TABLE anime (
     year int,
     image text);
 
-INSERT INTO anime(name, description, type, year, image) VALUES
-	('Anime I','Anime I description','TV',2021,'anime1.jpg'),
-	('Anime II','Anime II description','TV',2021,'anime2.jpg'),
-	('Anime III','Anime III description','TV',2021,'anime3.jpg'),
-	('Anime IV','Anime IV description','TV',2021,'anime4.jpg');
+CREATE TABLE author (
+    authorid uuid NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+    name text,
+    imageurl text);
+
+CREATE TABLE genre (
+    genreid uuid NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+    label text,
+    image text);
+
+CREATE TABLE anime_author (
+    animeid uuid REFERENCES anime(animeid) ON DELETE CASCADE,
+    authorid uuid REFERENCES author(authorid) ON DELETE CASCADE,
+    PRIMARY KEY (animeid, authorid));
+
+CREATE TABLE anime_genre (
+    animeid uuid REFERENCES anime(animeid) ON DELETE CASCADE,
+    genreid uuid REFERENCES genre(genreid) ON DELETE CASCADE,
+    PRIMARY KEY (animeid, genreid));
 
 CREATE TABLE file (
     fileid UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
     contenttype TEXT,
     data bytea);
 
-INSERT INTO file(contenttype, data) VALUES
-    ('image/png', 'sample text');
 
 CREATE TABLE usser (
     userid uuid NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -27,8 +39,4 @@ CREATE TABLE usser (
     role varchar(10),
     enabled boolean DEFAULT true
   );
-
--- afegim un usuari de prova
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-INSERT INTO usser (username, password) VALUES ('user', crypt('pass', gen_salt('bf')));
 

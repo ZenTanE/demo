@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.dto.Message;
+import com.example.demo.domain.dto.ResponseList;
 import com.example.demo.domain.model.Anime;
+import com.example.demo.domain.model.projection.ProjectionAnime;
 import com.example.demo.repository.AnimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +25,7 @@ public class AnimeController {
     public ResponseEntity<?> findAllAnimes() {
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                animeRepository.findAll());
+                new ResponseList(animeRepository.findBy(ProjectionAnime.class)));
 
     }
 
@@ -79,8 +81,7 @@ public class AnimeController {
 
             animeRepository.delete(
                     animeRepository.findById(id)
-                            .orElse(null)
-            );
+                            .orElse(null));
 
             return ResponseEntity.status(HttpStatus.OK).body(
                     "S'ha eliminat l'anime amb id \'"
