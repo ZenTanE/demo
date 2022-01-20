@@ -40,3 +40,7 @@ CREATE TABLE usser (
     enabled boolean DEFAULT true
   );
 
+CREATE TABLE favorite (
+    userid uuid REFERENCES usser(userid) ON DELETE CASCADE,
+    animeid uuid REFERENCES anime(animeid) ON DELETE CASCADE,
+    PRIMARY KEY (userid, animeid));

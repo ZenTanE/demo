@@ -20,9 +20,15 @@ INSERT INTO anime_genre(animeid, genreid) VALUES
     ((SELECT animeid FROM anime WHERE name='Anime I'), (SELECT genreid FROM genre WHERE label='Genre I')),
     ((SELECT animeid FROM anime WHERE name='Anime II'), (SELECT genreid FROM genre WHERE label='Genre II'));
 
+
+
 INSERT INTO file(contenttype, data) VALUES
     ('image/png', 'sample text');
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 INSERT INTO usser (username, password) VALUES ('user', crypt('pass', gen_salt('bf')));
+INSERT INTO usser (username, password) VALUES ('resu', crypt('pass', gen_salt('bf')));
 
+INSERT INTO favorite(animeid, userid) VALUES
+    ((SELECT animeid FROM anime WHERE name='Anime I'), (SELECT userid FROM usser WHERE username='user')),
+    ((SELECT animeid FROM anime WHERE name='Anime II'), (SELECT userid FROM usser WHERE username='user'));

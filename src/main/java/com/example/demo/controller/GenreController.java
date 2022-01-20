@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.dto.ResponseList;
+import com.example.demo.domain.model.Genre;
 import com.example.demo.domain.model.projection.ProjectionAuthor;
 import com.example.demo.domain.model.projection.ProjectionGenre;
 import com.example.demo.repository.AuthorRepository;
@@ -38,6 +39,12 @@ public class GenreController {
     public ResponseEntity<?> findGenre(@PathVariable UUID id) {
 
         if (genreRepository.existsById(id)) {
+
+            // TODO *testing* {
+
+
+
+            // TODO *testing* }
 
             return ResponseEntity.status(HttpStatus.OK).body(
                     genreRepository.findById(id)
